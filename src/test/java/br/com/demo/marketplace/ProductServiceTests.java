@@ -13,10 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import br.com.demo.marketplace.helpers.HelperFees;
 import br.com.demo.marketplace.models.Installment;
 import br.com.demo.marketplace.models.Payment;
 import br.com.demo.marketplace.models.Product;
+import br.com.demo.marketplace.models.SelicFee;
 import br.com.demo.marketplace.services.ProductService;
 import br.com.demo.marketplace.services.ProductServiceImpl;
 
@@ -27,7 +27,7 @@ public class ProductServiceTests {
 	private ProductServiceImpl productService;
 
 	@Mock // objeto burro
-	private HelperFees helperFees;
+	private SelicFee selicFee;
 
 	@BeforeEach
 	public void setup() {
@@ -41,7 +41,7 @@ public class ProductServiceTests {
 		Product product = new Product("001","teste", 500.00, payment);
 
 		// quero que aconteca isso
-		given(helperFees.getSelic()).willReturn(1.5);
+		given(selicFee.getValue()).willReturn(1.5);
 		
 		// quando chamar esse
 		List<Installment> payments = productService.buy(product);
