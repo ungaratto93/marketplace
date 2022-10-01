@@ -3,7 +3,6 @@ package br.com.demo.marketplace.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,13 +17,17 @@ import br.com.demo.marketplace.mappers.jsonMapper;
 import br.com.demo.marketplace.models.Payment;
 import br.com.demo.marketplace.models.Product;
 import br.com.demo.marketplace.services.ProductService;
+import br.com.demo.marketplace.services.ProductServiceImpl;
 
 @RestController
 public class ProductController {
 
-	@Autowired
-	ProductService productServiceImpl;
+	private ProductService productServiceImpl;
 	
+	public ProductController() {
+		this.productServiceImpl = new ProductServiceImpl();
+	}
+		
 	@PostMapping("/products/buy")
     @ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<List<Payment>> buy(@RequestBody String request) throws JsonParseException, JsonMappingException, IOException {
