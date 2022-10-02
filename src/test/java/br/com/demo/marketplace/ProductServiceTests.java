@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import br.com.demo.marketplace.exceptions.InvalidInstallmentsException;
 import br.com.demo.marketplace.models.Installment;
 import br.com.demo.marketplace.models.Payment;
 import br.com.demo.marketplace.models.Product;
@@ -36,7 +37,7 @@ public class ProductServiceTests {
 	
 	@DisplayName("Junit Teste para metodo de comprar produto")
 	@Test
-	public void givenProductObject_whenBuy_thenReturnListProductObject_withFees() {
+	public void givenProductObject_whenBuy_thenReturnListProductObject_withFees() throws InvalidInstallmentsException {
 		Payment payment = new Payment(100.00, 24);
 		Product product = new Product("001","teste", 500.00, payment);
 
@@ -53,7 +54,7 @@ public class ProductServiceTests {
 	
 	@DisplayName("Junit Teste para metodo de comprar produto")
 	@Test
-	public void givenProductObject_whenBuy_thenReturnListProductObject_withoutFees() {
+	public void givenProductObject_whenBuy_thenReturnListProductObject_withoutFees() throws InvalidInstallmentsException {
 		Payment payment = new Payment(100.00, 6);
 		Product product = new Product("001","teste", 500.00, payment);
 
