@@ -2,7 +2,7 @@ package br.com.demo.marketplace.models;
 
 public class Product {
 
-	private String name;
+	private String name;	
 	private String code;
 	private Double price;
 	private Payment payment;
@@ -14,6 +14,14 @@ public class Product {
 		this.payment = payment;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	
 	public Double getPrice() {
 		return this.price;
 	}
