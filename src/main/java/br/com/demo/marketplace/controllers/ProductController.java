@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import br.com.demo.marketplace.mappers.jsonMapper;
+import br.com.demo.marketplace.dtos.requests.PostProductRequestDTO;
+import br.com.demo.marketplace.models.Installment;
 import br.com.demo.marketplace.models.Payment;
-import br.com.demo.marketplace.models.Product;
 import br.com.demo.marketplace.services.ProductService;
 import br.com.demo.marketplace.services.ProductServiceImpl;
 
@@ -23,16 +23,21 @@ import br.com.demo.marketplace.services.ProductServiceImpl;
 public class ProductController {
 
 	private ProductService productServiceImpl;
-	
+
 	public ProductController() {
 		this.productServiceImpl = new ProductServiceImpl();
 	}
-		
-	@PostMapping("/products/buy")
-    @ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<List<Payment>> buy(@RequestBody String request) throws JsonParseException, JsonMappingException, IOException {
-		productServiceImpl.buy(jsonMapper.mapFromJson(request, Product.class));
-		return new ResponseEntity(null, HttpStatus.OK);
+
+	@PostMapping(path = "/products/buy", consumes = "application/json", produces = "application/json")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<List<Installment>> buy(@RequestBody PostProductRequestDTO postProductRequestDTO)
+			throws JsonParseException, JsonMappingException, IOException {
+		List<Installment> installments = productServiceImpl.buy(postProductRequestDTO.toModel(withPayment(postProductRequestDTO)));
+		return new ResponseEntity<List<Installment>>(installments, HttpStatus.OK);
 	}
-	
+
+	private Payment withPayment(PostProductRequestDTO request) {
+		return new Payment(request.getPayment().getDownPayment(), request.getPayment().getInstallments());
+	}
+
 }
