@@ -1,6 +1,7 @@
 package br.com.demo.marketplace.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import br.com.demo.marketplace.dtos.requests.PostProductRequestDTO;
+import br.com.demo.marketplace.exceptions.InvalidInstallmentsException;
 import br.com.demo.marketplace.models.Installment;
 import br.com.demo.marketplace.models.Payment;
 import br.com.demo.marketplace.services.ProductService;
@@ -30,10 +32,17 @@ public class ProductController {
 
 	@PostMapping(path = "/products/buy", consumes = "application/json", produces = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<List<Installment>> buy(@RequestBody PostProductRequestDTO postProductRequestDTO)
-			throws JsonParseException, JsonMappingException, IOException {
-		List<Installment> installments = productServiceImpl.buy(postProductRequestDTO.toModel(withPayment(postProductRequestDTO)));
-		return new ResponseEntity<List<Installment>>(installments, HttpStatus.OK);
+	public ResponseEntity<List<Installment>> buy(@RequestBody PostProductRequestDTO postProductRequestDTO) {
+		List<Installment> installments;
+		ResponseEntity<List<Installment>> response;
+		try {
+			installments = productServiceImpl
+					.buy(postProductRequestDTO.toModel(withPayment(postProductRequestDTO)));
+			response = new ResponseEntity<List<Installment>>(installments, HttpStatus.OK);
+		} catch (InvalidInstallmentsException e) {
+			response = new ResponseEntity<List<Installment>>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+		}
+		return response;
 	}
 
 	private Payment withPayment(PostProductRequestDTO request) {

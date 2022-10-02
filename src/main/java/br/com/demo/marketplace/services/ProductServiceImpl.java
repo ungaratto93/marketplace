@@ -3,6 +3,7 @@ package br.com.demo.marketplace.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.demo.marketplace.exceptions.InvalidInstallmentsException;
 import br.com.demo.marketplace.models.Debt;
 import br.com.demo.marketplace.models.SelicFee;
 import br.com.demo.marketplace.models.Installment;
@@ -11,10 +12,10 @@ import br.com.demo.marketplace.models.Product;
 public class ProductServiceImpl implements ProductService {
 	
 	@Override
-	public List<Installment> buy(Product product) {
+	public List<Installment> buy(Product product) throws InvalidInstallmentsException {
 		int installments = product.getPayment().getInstallments();
 		if (installments <= 0) {
-			throw new IllegalArgumentException("Invalid Installments");
+			throw new InvalidInstallmentsException("Invalid Installments");
 		}
 
 		Double selic = new SelicFee().applyIn(installments);
