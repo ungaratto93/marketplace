@@ -1,10 +1,12 @@
 package br.com.demo.marketplace;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,24 +37,26 @@ public class ProductServiceTests {
 		ProductService productService = new ProductServiceImpl();
 	}
 	
-	@DisplayName("Junit Teste para metodo de comprar produto")
+	@DisplayName("Junit Teste para metodo de comprar produto com juros")
 	@Test
 	public void givenProductObject_whenBuy_thenReturnListProductObject_withFees() throws InvalidInstallmentsException {
 		Payment payment = new Payment(100.00, 24);
 		Product product = new Product("001","teste", 500.00, payment);
 
 		// quero que aconteca isso
-		given(selicFee.getValue()).willReturn(1.5);
+		//given(selicFee.getValue()).willReturn(1.5);
 		
 		// quando chamar esse
 		List<Installment> payments = productService.buy(product);
 		
 		// entao valido a saida
 		assertThat(payments).isNotNull();
-
+		assertThat(payments.get(0).getFee()).isEqualTo(13.65);
+		assertThat(payments.get(0).getValue()).isEqualTo(244.16666666666669);
+		assertThat(payments.size()).isEqualTo(24);
 	}
 	
-	@DisplayName("Junit Teste para metodo de comprar produto")
+	@DisplayName("Junit Teste para metodo de comprar produto sem juros")
 	@Test
 	public void givenProductObject_whenBuy_thenReturnListProductObject_withoutFees() throws InvalidInstallmentsException {
 		Payment payment = new Payment(100.00, 6);
@@ -63,7 +67,9 @@ public class ProductServiceTests {
 
 		// entao valido a saida
 		assertThat(payments).isNotNull();
+		assertThat(payments.get(0).getFee()).isEqualTo(0.00);
 		assertThat(payments.get(0).getValue()).isEqualTo(66.66666666666667);
+		assertThat(payments.size()).isEqualTo(6);
 
 	}
 	
