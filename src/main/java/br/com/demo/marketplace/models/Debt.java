@@ -27,4 +27,17 @@ public class Debt {
 	public Double getInstallment() {
 		return (paymentInstallment + (paymentInstallment * fee));
 	}
+
+    public void setValue(Double debtValue) {
+		this.value = debtValue;
+	}
+
+    public void setPayInstallment(Double paymentInstallment2) {
+		this.paymentInstallment = paymentInstallment2;
+	}
+
+    public void setFee(Double selic) {
+		this.fee = selic;
+	}
+
 }

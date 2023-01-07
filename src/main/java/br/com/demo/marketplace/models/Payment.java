@@ -9,6 +9,8 @@ public class Payment {
 
 	@JsonProperty("installments")
 	private int installments;
+
+	private Double debtPrice;
 	
 	public Payment(Double downPayment, int installments) {
 		this.downPayment = downPayment;
@@ -23,11 +25,22 @@ public class Payment {
 		return this.installments;
 	}
 	
-	public Double getPaymentInstallment(Double debtValue) {
-		return (debtValue / installments);
+	private Double getDebtPrice() {
+		return this.debtPrice;
 	}
 
-	public Double getDebtValue(Double price) {
-		return (price - getDownPayment());		
+	private void setDebtPrice(Double debtPrice) {
+		this.debtPrice = debtPrice;
 	}
+
+	public Double calculateAmountPayPerInstallmentBy() {
+		return (getDebtPrice() / getInstallments());
+	}
+
+	public Double calculateDebts(Double debtPrice) {
+		setDebtPrice(debtPrice - getDownPayment());
+		return getDebtPrice();		
+	}
+
+
 }
