@@ -38,8 +38,8 @@ public class Payment {
 	}
 
 	public Double calculateDebts(Double debtPrice) {
-		setDebtPrice(debtPrice);
-		return (getDebtPrice() - getDownPayment());		
+		setDebtPrice(debtPrice - getDownPayment());
+		return getDebtPrice();		
 	}
 
 

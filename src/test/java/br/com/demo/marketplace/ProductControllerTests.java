@@ -20,13 +20,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import br.com.demo.marketplace.mappers.jsonMapper;
 import br.com.demo.marketplace.models.Installment;
 import br.com.demo.marketplace.models.Payment;
 import br.com.demo.marketplace.models.Product;
-import br.com.demo.marketplace.services.ProductService;
 import br.com.demo.marketplace.services.ProductServiceImpl;
 
 @SpringBootTest
@@ -35,7 +32,7 @@ import br.com.demo.marketplace.services.ProductServiceImpl;
 public class ProductControllerTests {
 
 	@Mock
-	private ProductService productService;
+	private ProductServiceImpl productService;
 
 	@Autowired
 	private MockMvc mvc;
@@ -45,7 +42,6 @@ public class ProductControllerTests {
 
 	public void setUp() {
 		mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		productService = new ProductServiceImpl();
 	}
 
 	@Test

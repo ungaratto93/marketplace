@@ -43,9 +43,6 @@ public class ProductServiceTests {
 		Payment payment = new Payment(100.00, 24);
 		Product product = new Product("001","teste", 500.00, payment);
 
-		// quero que aconteca isso
-		//given(selicFee.getValue()).willReturn(1.5);
-		
 		// quando chamar esse
 		List<Installment> payments = productService.buy(product);
 		
@@ -58,7 +55,7 @@ public class ProductServiceTests {
 	
 	@DisplayName("Junit Teste para metodo de comprar produto sem juros")
 	@Test
-	public void givenProductObject_whenBuy_thenReturnListProductObject_withoutFees() throws InvalidInstallmentsException {
+	public void givencurrentIntallmentProductObject_whenBuy_thenReturnListProductObject_withoutFees() throws InvalidInstallmentsException {
 		Payment payment = new Payment(100.00, 6);
 		Product product = new Product("001","teste", 500.00, payment);
 

@@ -27,9 +27,9 @@ public class ProductServiceImpl implements ProductService {
 				.withFee(new SelicFee().canApplyIn(installments))
 				.build();
 
-		List<Installment> installmentsToPayDebt = new ArrayList<>(installments);
-		for (int installmentNumber = 1; installmentNumber <= installmentNumber; installmentNumber++) {
-			installmentsToPayDebt.add(new Installment(installmentNumber, debt.getInstallment(), debt.getFee()));
+		List<Installment> installmentsToPayDebt = new ArrayList<>();
+		for (int currentIntallment = 1; currentIntallment <= installments; currentIntallment++) {
+			installmentsToPayDebt.add(new Installment(currentIntallment, debt.getInstallment(), debt.getFee()));
 		}
 		return installmentsToPayDebt;
 	}
